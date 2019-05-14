@@ -76,6 +76,7 @@ export interface SortableContainerProps {
   getContainer?: ContainerGetter;
   getHelperDimensions?: (sort: SortStart) => Dimensions;
   helperContainer?: HTMLElement | HelperContainerGetter;
+  translatableSelector: string;
 }
 
 export interface SortableElementProps {
