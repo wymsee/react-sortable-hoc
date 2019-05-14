@@ -36,6 +36,7 @@ export const propTypes = {
   pressDelay: PropTypes.number,
   pressThreshold: PropTypes.number,
   shouldCancelStart: PropTypes.func,
+  translatableSelector: PropTypes.string,
   transitionDuration: PropTypes.number,
   updateBeforeSortStart: PropTypes.func,
   useDragHandle: PropTypes.bool,

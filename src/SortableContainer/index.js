@@ -332,11 +332,11 @@ export default function sortableContainer(
             height: containerHeight,
           } = useWindowAsScrollContainer
             ? {
-              top: 0,
-              left: 0,
-              width: this.contentWindow.innerWidth,
-              height: this.contentWindow.innerHeight,
-            }
+                top: 0,
+                left: 0,
+                width: this.contentWindow.innerWidth,
+                height: this.contentWindow.innerHeight,
+              }
             : this.containerBoundingRect;
           const containerBottom = containerTop + containerHeight;
           const containerRight = containerLeft + containerWidth;
@@ -503,9 +503,16 @@ export default function sortableContainer(
         node.boundingClientRect = null;
 
         // Remove the transforms / transitions
-        setTranslate3d(el, null);
-        setTransitionDuration(el, null);
-        node.translate = null;
+        if (this.props.translatableSelector) {
+          const els = el.querySelectorAll(this.props.translatableSelector);
+          for (let j = 0, jlen = els.length; j < jlen; j++) {
+            setTranslate3d(els[j], null);
+            setTransitionDuration(els[j], null);
+          }
+        } else {
+          setTranslate3d(el, null);
+          setTransitionDuration(el, null);
+        }
       }
 
       // Stop autoscroll
@@ -686,7 +693,14 @@ export default function sortableContainer(
         }
 
         if (transitionDuration) {
-          setTransitionDuration(node, transitionDuration);
+          if (this.props.translatableSelector) {
+            const els = node.querySelectorAll(this.props.translatableSelector);
+            for (let j = 0, jlen = els.length; j < jlen; j++) {
+              setTransitionDuration(els[j], transitionDuration);
+            }
+          } else {
+            setTransitionDuration(node, transitionDuration);
+          }
         }
 
         if (this.axis.x) {
@@ -791,8 +805,16 @@ export default function sortableContainer(
           }
         }
 
-        setTranslate3d(node, translate);
-        nodes[i].translate = translate;
+        if (this.props.translatableSelector) {
+          const els = node.querySelectorAll(this.props.translatableSelector);
+          for (let j = 0, jlen = els.length; j < jlen; j++) {
+            setTranslate3d(els[j], translate);
+            // els[j].node.translate = translate;
+          }
+        } else {
+          setTranslate3d(node, translate);
+          nodes[i].translate = translate;
+        }
       }
 
       if (this.newIndex == null) {
